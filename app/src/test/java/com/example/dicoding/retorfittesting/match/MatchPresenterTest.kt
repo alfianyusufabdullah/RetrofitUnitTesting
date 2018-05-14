@@ -1,8 +1,8 @@
 package com.example.dicoding.retorfittesting.match
 
 import com.example.dicoding.retorfittesting.entity.MatchResponse
-import com.example.dicoding.retorfittesting.repository.MatchDataSource
 import com.example.dicoding.retorfittesting.repository.MatchRepository
+import com.example.dicoding.retorfittesting.repository.RepositoryCallback
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
@@ -14,7 +14,7 @@ import org.mockito.*
 class MatchPresenterTest {
 
     @Mock
-    private lateinit var view: MatchContract.View
+    private lateinit var view: MatchView
 
     @Mock
     private lateinit var matchRepository: MatchRepository
@@ -29,26 +29,19 @@ class MatchPresenterTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        matchPresenter = MatchPresenter(view , matchRepository)
+        matchPresenter = MatchPresenter(view, matchRepository)
     }
 
     @Test
-    fun initPresenterSetup() {
-        matchPresenter = MatchPresenter(view , matchRepository)
-
-        Mockito.verify(view).setPresenter(matchPresenter)
-    }
-
-    @Test
-    fun getMatchLoadedTest(){
+    fun getMatchLoadedTest() {
 
         val id = "4328"
 
         matchPresenter.getMatch(id)
 
-        argumentCaptor<MatchDataSource.LoadDataCallback>().apply {
+        argumentCaptor<RepositoryCallback<MatchResponse?>>().apply {
 
-            verify(matchRepository).getMatch(eq(id) , capture())
+            verify(matchRepository).getNextMatch(eq(id), capture())
             firstValue.onDataLoaded(matchResponse)
         }
 
@@ -58,13 +51,13 @@ class MatchPresenterTest {
     }
 
     @Test
-    fun getMatchErrorTest(){
+    fun getMatchErrorTest() {
 
-        matchPresenter.start()
+        matchPresenter.getMatch("")
 
-        argumentCaptor<MatchDataSource.LoadDataCallback>().apply {
+        argumentCaptor<RepositoryCallback<MatchResponse?>>().apply {
 
-            verify(matchRepository).getMatch(eq("") , capture())
+            verify(matchRepository).getNextMatch(eq(""), capture())
             firstValue.onDataError()
         }
 
