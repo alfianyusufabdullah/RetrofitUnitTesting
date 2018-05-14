@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface ApiRepository {
     @GET("api/v1/json/1/eventsnextleague.php")
-    fun getPastMatch(@Query("id") id: String) : Call<MatchResponse>
+    fun getNextMatch(@Query("id") id: String) : Call<MatchResponse>
 }
