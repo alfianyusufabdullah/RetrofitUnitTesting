@@ -1,17 +1,27 @@
 package com.example.dicoding.retorfittesting.repository
 
 import com.example.dicoding.retorfittesting.entity.MatchResponse
+import com.example.dicoding.retorfittesting.network.MyRetrofit
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MatchRepository(private val dataSources: MatchRemoteDataSources) : MatchDataSource {
+class MatchRepository {
 
-    override fun getMatch(id: String, callback: MatchDataSource.LoadDataCallback) {
-        dataSources.getMatch(id, object : MatchDataSource.LoadDataCallback {
-            override fun onDataLoaded(response: MatchResponse?) {
-                callback.onDataLoaded(response)
+    fun getNextMatch(id: String, callback: RepositoryCallback<MatchResponse?>){
+        MyRetrofit.getService().getNextMatch(id).enqueue(object : Callback<MatchResponse>{
+            override fun onFailure(call: Call<MatchResponse>?, t: Throwable?) {
+                callback.onDataError()
             }
 
-            override fun onDataError() {
-                callback.onDataError()
+            override fun onResponse(call: Call<MatchResponse>?, response: Response<MatchResponse>?) {
+                response?.let {
+                    if (it.isSuccessful){
+                        callback.onDataLoaded(it.body())
+                    } else {
+                        callback.onDataError()
+                    }
+                }
             }
         })
     }
