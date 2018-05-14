@@ -10,8 +10,8 @@ object MyRetrofit {
         return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
     }
 
-    fun getService() : ApiRepository {
-        return iniRetrofit().create(ApiRepository::class.java)
+    fun <T> createService(service: Class<T>) : T {
+        return iniRetrofit().create(service)
     }
 
 }
