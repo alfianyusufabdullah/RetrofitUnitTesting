@@ -2,7 +2,7 @@ package com.example.dicoding.retorfittesting.match
 
 import com.example.dicoding.retorfittesting.entity.MatchResponse
 import com.example.dicoding.retorfittesting.repository.MatchRepository
-import com.example.dicoding.retorfittesting.repository.RepositoryCallback
+import com.example.dicoding.retorfittesting.repository.MatchRepositoryCallback
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
@@ -39,7 +39,7 @@ class MatchPresenterTest {
 
         matchPresenter.getMatch(id)
 
-        argumentCaptor<RepositoryCallback<MatchResponse?>>().apply {
+        argumentCaptor<MatchRepositoryCallback<MatchResponse?>>().apply {
 
             verify(matchRepository).getNextMatch(eq(id), capture())
             firstValue.onDataLoaded(matchResponse)
@@ -55,7 +55,7 @@ class MatchPresenterTest {
 
         matchPresenter.getMatch("")
 
-        argumentCaptor<RepositoryCallback<MatchResponse?>>().apply {
+        argumentCaptor<MatchRepositoryCallback<MatchResponse?>>().apply {
 
             verify(matchRepository).getNextMatch(eq(""), capture())
             firstValue.onDataError()

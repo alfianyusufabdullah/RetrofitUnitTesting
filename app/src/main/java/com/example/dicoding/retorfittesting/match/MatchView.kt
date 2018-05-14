@@ -1,9 +1,9 @@
 package com.example.dicoding.retorfittesting.match
 
 import com.example.dicoding.retorfittesting.entity.MatchResponse
-import com.example.dicoding.retorfittesting.repository.RepositoryCallback
+import com.example.dicoding.retorfittesting.repository.MatchRepositoryCallback
 
-interface MatchView : RepositoryCallback<MatchResponse> {
+interface MatchView : MatchRepositoryCallback<MatchResponse> {
     fun onShowLoading()
     fun onHideLoading()
 }

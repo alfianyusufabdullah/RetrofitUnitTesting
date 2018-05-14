@@ -1,6 +1,6 @@
 package com.example.dicoding.retorfittesting.repository
 
-interface RepositoryCallback<T> {
+interface MatchRepositoryCallback<T> {
 
     fun onDataLoaded(data: T?)
     fun onDataError()

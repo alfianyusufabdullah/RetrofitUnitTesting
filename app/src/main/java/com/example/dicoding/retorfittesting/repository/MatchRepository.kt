@@ -8,7 +8,7 @@ import retrofit2.Response
 
 class MatchRepository {
 
-    fun getNextMatch(id: String, callback: RepositoryCallback<MatchResponse?>){
+    fun getNextMatch(id: String, callback: MatchRepositoryCallback<MatchResponse?>){
         MyRetrofit.getService().getNextMatch(id).enqueue(object : Callback<MatchResponse>{
             override fun onFailure(call: Call<MatchResponse>?, t: Throwable?) {
                 callback.onDataError()
