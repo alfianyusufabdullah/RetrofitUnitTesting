@@ -1,0 +1,75 @@
+package com.example.dicoding.retorfittesting.match
+
+import com.example.dicoding.retorfittesting.entity.MatchResponse
+import com.example.dicoding.retorfittesting.repository.MatchDataSource
+import com.example.dicoding.retorfittesting.repository.MatchRepository
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.verify
+import org.junit.Before
+
+import org.junit.Test
+import org.mockito.*
+
+class MatchPresenterTest {
+
+    @Mock
+    private lateinit var view: MatchContract.View
+
+    @Mock
+    private lateinit var matchRepository: MatchRepository
+
+    @Mock
+    private lateinit var matchResponse: MatchResponse
+
+    private lateinit var matchPresenter: MatchPresenter
+
+
+    @Before
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+
+        matchPresenter = MatchPresenter(view , matchRepository)
+    }
+
+    @Test
+    fun initPresenterSetup() {
+        matchPresenter = MatchPresenter(view , matchRepository)
+
+        Mockito.verify(view).setPresenter(matchPresenter)
+    }
+
+    @Test
+    fun getMatchLoadedTest(){
+
+        val id = "4328"
+
+        matchPresenter.getMatch(id)
+
+        argumentCaptor<MatchDataSource.LoadDataCallback>().apply {
+
+            verify(matchRepository).getMatch(eq(id) , capture())
+            firstValue.onDataLoaded(matchResponse)
+        }
+
+        Mockito.verify(view).onShowLoading()
+        Mockito.verify(view).onDataLoaded(matchResponse)
+        Mockito.verify(view).onHideLoading()
+    }
+
+    @Test
+    fun getMatchErrorTest(){
+
+        matchPresenter.start()
+
+        argumentCaptor<MatchDataSource.LoadDataCallback>().apply {
+
+            verify(matchRepository).getMatch(eq("") , capture())
+            firstValue.onDataError()
+        }
+
+        Mockito.verify(view).onShowLoading()
+        Mockito.verify(view).onDataError()
+        Mockito.verify(view).onHideLoading()
+    }
+}
