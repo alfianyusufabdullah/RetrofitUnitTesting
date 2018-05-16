@@ -1,10 +1,10 @@
-package com.example.dicoding.retorfittesting.match
+package com.example.dicoding.retrofittestingwithrx.match
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.dicoding.retorfittesting.R
-import com.example.dicoding.retorfittesting.entity.MatchResponse
-import com.example.dicoding.retorfittesting.repository.MatchRepository
+import com.example.dicoding.retrofittestingwithrx.R
+import com.example.dicoding.retrofittestingwithrx.entity.MatchResponse
+import com.example.dicoding.retrofittestingwithrx.repository.MatchRepository
 
 class MatchActivity : AppCompatActivity(), MatchView {
 
