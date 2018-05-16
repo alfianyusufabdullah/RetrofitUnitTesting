@@ -1,4 +1,4 @@
-package com.example.dicoding.retorfittesting.repository
+package com.example.dicoding.retrofittestingwithrx.repository
 
 interface MatchRepositoryCallback<T> {
 

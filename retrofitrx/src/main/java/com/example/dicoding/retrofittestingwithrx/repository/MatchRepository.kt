@@ -1,6 +1,5 @@
 package com.example.dicoding.retrofittestingwithrx.repository
 
-import com.example.dicoding.retorfittesting.repository.MatchRepositoryCallback
 import com.example.dicoding.retrofittestingwithrx.entity.MatchResponse
 import com.example.dicoding.retrofittestingwithrx.network.ApiRepository
 import com.example.dicoding.retrofittestingwithrx.network.MyRetrofit
@@ -16,14 +15,12 @@ class MatchRepository {
                 .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data ->
-
                     data?.let {
                         callback.onDataLoaded(it)
                     } ?: run {
                         callback.onDataError()
                     }
                 }, {
-
                     callback.onDataError()
                 })
     }
