@@ -7,7 +7,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 object MyRetrofit {
 
     private fun iniRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
+        return Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
     }
 
     fun <T> createService(service: Class<T>): T {
